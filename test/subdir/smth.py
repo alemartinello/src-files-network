@@ -1,3 +1,0 @@
-import pyodbc
-
-print('hi')
