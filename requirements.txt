@@ -1,1 +1,3 @@
-networkx
+networkx=2.5
+pyvis=0.1.9
+click

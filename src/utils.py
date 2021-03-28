@@ -3,16 +3,16 @@
 from pathlib import Path
 from math import log
 import networkx as nx
+import click
 
 
 class FileNetwork():
-    def __init__(self, sourcepath, cycles_color='red'):
+    def __init__(self, sourcepath, cycles_color='red', usegitignore=True):
         """
         """
         self.sourcepath = Path(sourcepath)
-        self.filelist = [
-            path.relative_to(self.sourcepath) for path in self.sourcepath.glob('**/*.py')
-        ]
+        self.usegitignore = usegitignore
+        self.filelist = self._get_pyfilelist(self.sourcepath, self.usegitignore)
         self.internal = [self.name(path) for path in self.filelist]
         self.networkdict = {}
         self.cycles_color = cycles_color
@@ -30,7 +30,7 @@ class FileNetwork():
             node_attributes = {'type': node.suffix}
             if node_attributes['type'] == '.py':
                 node_attributes['size'] = 2 + log(self.get_filesize(self.sourcepath / node)) * 2
-                node_attributes['color'] = {'border': 'blue', 'background': 'rgba(122,122,122,1)'}
+                node_attributes['color'] = {'border': "rgba(0,70,10,1)", "background": "rgba(0, 120, 20 ,1)"}
             nodes.append((self.name(node), node_attributes))
         return nodes
 
@@ -65,9 +65,27 @@ class FileNetwork():
                 imp = imp.split('.')[0]
                 edge_dictionary = {}
             else:
-                edge_dictionary = {'width': 2}
+                edge_dictionary = {'width': 4}
             edgelist.append((imp, self.name(filepath), edge_dictionary))
         return edgelist
+
+    @staticmethod
+    def _get_pyfilelist(srcpath, usegitignore=True):
+        """
+        """
+        gitignorefile = srcpath / Path('.gitignore')
+        if usegitignore and gitignorefile.exists():
+            with gitignorefile.open() as f:
+                lines = f.read().splitlines()
+            gitignore = [
+                Path(line) for line in lines if not line.strip().startswith('#') and len(line.strip()) > 1 and Path(line).suffix == ''
+            ] + [Path('.git')]
+            viablepaths = [p for p in srcpath.glob('*/') if p.is_dir() and p not in gitignore]
+            filelist = set().union(*[set(p.glob('**/*.py')) for p in viablepaths])
+        else:
+            filelist = srcpath.glob('**/*.py')
+
+        return [p.relative_to(srcpath) for p in filelist]
 
     @staticmethod
     def get_imports(inputfile):
@@ -101,3 +119,18 @@ class FileNetwork():
     @staticmethod
     def name(path):
         return str(path).replace('/', '.').replace('.py', '')
+
+
+def get_pyvis_options():
+    with open('src/pyvis_options.json', 'r') as f:
+        options = f.read()
+    return f"""var options = {str(options)}"""
+
+
+@click.command()
+def plotnetwork():
+    pass
+
+
+if __name__ == '__main__':
+    pass
