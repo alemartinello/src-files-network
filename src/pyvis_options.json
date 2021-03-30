@@ -1,0 +1,50 @@
+{
+    "nodes": {
+        "color": {
+            "border": "rgba(100,100,100,0.7)",
+            "background": "rgba(150,150,150,1)",
+            "highlight": {
+                "border": "blue",
+                "background": "rgba(80,80,255,1)"
+            },
+            "inherit": "true"
+        },
+        "font": {
+            "size": 12
+        },
+        "scaling": {
+            "min": 12
+        },
+        "shapeProperties": {
+            "borderRadius": 4
+        }
+    },
+    "edges": {
+        "arrows": {
+            "to": {
+                "enabled": true,
+                "scaleFactor": 0.3
+            },
+            "middle": {
+                "enabled": true,
+                "scaleFactor": 0.3
+            }
+        },
+        "smooth": {
+            "type": "continuous",
+            "forceDirection": "none"
+        },
+        "color": {
+            "color": "rgba(150,150,150,1)",
+            "inherit": "False"
+        }
+    },
+    "physics": {
+        "forceAtlas2Based": {
+            "springLength": 100
+        },
+        "minVelocity": 0.75,
+        "solver": "forceAtlas2Based",
+        "timestep": 0.8
+    }
+}

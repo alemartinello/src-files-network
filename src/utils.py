@@ -2,6 +2,7 @@
 """
 from pathlib import Path
 from math import log
+from pyvis.network import Network
 import networkx as nx
 import click
 
@@ -127,10 +128,25 @@ def get_pyvis_options():
     return f"""var options = {str(options)}"""
 
 
+def plot_network(path, saveas=None):
+    if saveas is None:
+        saveas = '_srcnetwork.html'
+    fn = FileNetwork(path)
+    nt = Network('1500px', '1500px')
+    nt.toggle_physics(True)
+    nt.from_nx(fn.network)
+    nt.set_options(get_pyvis_options())
+    nt.show(f'{saveas}.html')
+    return
+
+
 @click.command()
-def plotnetwork():
-    pass
+@click.argument('path', type=click.Path(exists=True))
+@click.option('--saveas', default='_scrnetwork.html', show_default=True, type=click.File(mode='w'))
+def plotnetwork(path, saveas):
+    click.echo(path)
+    click.echo(saveas)
 
 
 if __name__ == '__main__':
-    pass
+    plotnetwork()
