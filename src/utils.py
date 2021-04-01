@@ -203,14 +203,20 @@ def plot_network(path, saveas=None, **kwargs):
     return
 
 
-@click.command()
+@click.command(
+    help="""
+    Maps python files in a folder into a network based on cross-imports and plots it.
+    Automatically highlights circular imports, and ignores folders specified in
+    .gitignore
+    """
+)
 @click.argument("path", type=click.Path(exists=True))
 @click.option(
-    "--saveas", default="_scrnetwork.html", show_default=True, type=click.File(mode="w")
+    "--saveas", default="_scrnetwork.html", show_default=True, type=str,
+    help="html file where to save the network plot."
 )
 def plotnetwork(path, saveas):
-    click.echo(path)
-    click.echo(saveas)
+    plot_network(path, saveas=saveas)
 
 
 if __name__ == "__main__":
