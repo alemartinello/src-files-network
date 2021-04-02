@@ -2,11 +2,11 @@
 
 A Script to visualize how python modules in a project/folder import each other and external packages.
 
-The script automatically ingores folders specified ina  `.gitignore` file.
+The script automatically ingores folders specified in a  `.gitignore` file.
 
 ## Requirements
 
-```txt
+```shell
 networkx==2.5
 pyvis==0.1.9
 click
@@ -16,7 +16,7 @@ click
 
 After cloning the repository, to plot the import network for the current repository (the `test` folder contains an example of a cyclical import):
 
-```terminal
+```shell
 python3 -m venv .venv
 source .venv/bin/activate
 pip install .
@@ -24,7 +24,7 @@ pip install .
 
 Then you can either execute the newly installed `srcfilesnetwork` python module or directly call the `scrfilesnetwork.py` script
 
-```terminal
+```shell
 python srcfilesnetwork.py .
 python -m scrfilenetwork . 
 ```
@@ -41,7 +41,7 @@ Cyclical imports are highlighted in red.
 
 ## Syntax
 
-```src
+```shell
 srcfilesnetwork.py [OPTIONS] PATH
 
 Options: 
