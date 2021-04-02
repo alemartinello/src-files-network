@@ -112,15 +112,15 @@ class FileNetwork:
         """
         gitignorefile = srcpath / Path(".gitignore")
         if usegitignore and gitignorefile.exists():
-            with gitignorefile.open() as f:
+            with gitignorefile.open('r') as f:
                 lines = f.read().splitlines()
             gitignore = [
-                Path(line)
+                srcpath/ Path(line)
                 for line in lines
                 if not line.strip().startswith("#")
                 and len(line.strip()) > 1
                 and Path(line).suffix == ""
-            ] + [Path(".git")]
+            ] + [srcpath / Path(".git")]
             viablepaths = [
                 p for p in srcpath.glob("*/") if p.is_dir() and p not in gitignore
             ]
@@ -134,20 +134,21 @@ class FileNetwork:
     @staticmethod
     def get_imports(inputfile) -> list:
         """
-        Finds iport statements in a `.py` file
+        Finds import statements in a `.py` file
         """
-        with inputfile.open() as f:
-            lines = f.read().splitlines()
+        with inputfile.open('rb') as f:
+            lines = f.read().decode(errors='replace').splitlines()
 
         lines = [line for line in lines if len(line.strip()) > 0]
         importlist = [
             iline.split()[1]
             for iline in [
-                line
+                line.strip()
                 for line in lines
                 if (line.strip().split()[0] == "import")
                 or (line.strip().split()[0] == "from")
             ]
+            if len(iline.split())>1
         ]
         return importlist
 
