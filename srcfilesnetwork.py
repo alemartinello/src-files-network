@@ -115,7 +115,7 @@ class FileNetwork:
             with gitignorefile.open('r') as f:
                 lines = f.read().splitlines()
             gitignore = [
-                srcpath/ Path(line)
+                srcpath / Path(line)
                 for line in lines
                 if not line.strip().startswith("#")
                 and len(line.strip()) > 1
@@ -128,7 +128,6 @@ class FileNetwork:
             filelist = filelist.union(*[set(srcpath.glob('*.py'))])
         else:
             filelist = srcpath.glob("**/*.py")
-
         return [p.relative_to(srcpath) for p in filelist]
 
     @staticmethod
@@ -175,8 +174,56 @@ class FileNetwork:
 
 
 def get_pyvis_options():
-    with (Path(__file__).parent.absolute() / "opt/pyvis_options.json").open() as f:
-        options = f.read()
+    options = """{
+        "nodes": {
+            "color": {
+                "border": "rgba(100,100,100,0.7)",
+                "background": "rgba(150,150,150,1)",
+                "highlight": {
+                    "border": "blue",
+                    "background": "rgba(80,80,255,1)"
+                },
+                "inherit": "true"
+            },
+            "font": {
+                "size": 12
+            },
+            "scaling": {
+                "min": 12
+            },
+            "shapeProperties": {
+                "borderRadius": 4
+            }
+        },
+        "edges": {
+            "arrows": {
+                "to": {
+                    "enabled": "True",
+                    "scaleFactor": 0.3
+                },
+                "middle": {
+                    "enabled": "True",
+                    "scaleFactor": 0.3
+                }
+            },
+            "smooth": {
+                "type": "continuous",
+                "forceDirection": "none"
+            },
+            "color": {
+                "color": "rgba(150,150,150,1)",
+                "inherit": "False"
+            }
+        },
+        "physics": {
+            "forceAtlas2Based": {
+                "springLength": 100
+            },
+            "minVelocity": 0.75,
+            "solver": "forceAtlas2Based",
+            "timestep": 0.8
+        }
+    }"""
     return f"""var options = {str(options)}"""
 
 
