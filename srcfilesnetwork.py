@@ -147,7 +147,7 @@ class FileNetwork:
                 if (line.strip().split()[0] == "import")
                 or (line.strip().split()[0] == "from")
             ]
-            if len(iline.split())>1
+            if len(iline.split()) > 1
         ]
         return importlist
 
@@ -175,6 +175,25 @@ class FileNetwork:
 
 def get_pyvis_options():
     options = """{
+        "edges": {
+            "arrows": {
+            "to": {
+                "enabled": true,
+                "scaleFactor": 0.3
+            },
+            "middle": {
+                "enabled": true,
+                "scaleFactor": 0.3
+            }
+            },
+            "color": {
+            "inherit": true
+            },
+            "smooth": {
+                "type": "continuous",
+                "forceDirection": "none"
+            }
+        },
         "nodes": {
             "color": {
                 "border": "rgba(100,100,100,0.7)",
@@ -195,26 +214,6 @@ def get_pyvis_options():
                 "borderRadius": 4
             }
         },
-        "edges": {
-            "arrows": {
-                "to": {
-                    "enabled": "True",
-                    "scaleFactor": 0.3
-                },
-                "middle": {
-                    "enabled": "True",
-                    "scaleFactor": 0.3
-                }
-            },
-            "smooth": {
-                "type": "continuous",
-                "forceDirection": "none"
-            },
-            "color": {
-                "color": "rgba(150,150,150,1)",
-                "inherit": "False"
-            }
-        },
         "physics": {
             "forceAtlas2Based": {
                 "springLength": 100
@@ -224,7 +223,7 @@ def get_pyvis_options():
             "timestep": 0.8
         }
     }"""
-    return f"""var options = {str(options)}"""
+    return f"""var options = {options}"""
 
 
 def plot_network(path, saveas=None, **kwargs):
