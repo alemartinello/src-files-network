@@ -11,6 +11,6 @@ setup(
     ],
     entry_points='''
         [console_scripts]
-        srcfilesnetwork=srcfilesnetwork:cli
+        srcfilesnetwork=srcfilesnetwork:plotnetwork 
     ''',
 )
